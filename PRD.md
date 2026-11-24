@@ -121,8 +121,8 @@ Website portfolio satu halaman (one-page, scroll panjang) untuk seorang kreator/
 - Objek 3D dekoratif (bentuk ungu, petir hijau).
 - **Fungsional:**
   - Validasi di sisi browser (wajib diisi, format email).
-  - Dikirim ke backend PHP → diteruskan ke email pemilik.
-  - Proteksi spam: honeypot field + rate limit sederhana.
+  - Dikirim lewat **Web3Forms** (gratis, 250 pesan/bulan) → diteruskan ke email pemilik. Access key Web3Forms memang aman ditaruh di HTML.
+  - Proteksi spam: honeypot field bawaan Web3Forms (+ hCaptcha opsional).
   - Pesan sukses/gagal tampil tanpa reload halaman.
 
 ### 5.9 Footer
@@ -156,29 +156,29 @@ Website portfolio satu halaman (one-page, scroll panjang) untuk seorang kreator/
 - **SEO:** title & meta description, Open Graph image, satu `<h1>` (di hero), heading berurutan, alt text di semua gambar.
 - **Aksesibilitas:** kontras teks body ≥ 4.5:1, fokus keyboard terlihat, tombol & link punya label jelas.
 - **Browser:** Chrome, Safari, Firefox, Edge versi terbaru; Safari iOS.
-- **Konten mudah diubah:** semua teks, proyek, testimoni, dan link disimpan di satu file data (mis. `data/content.php` atau `content.json`), bukan tersebar di HTML.
+- **Konten mudah diubah:** semua teks, proyek, testimoni, dan link disimpan di satu file data (`data/content.js`), bukan tersebar di HTML.
 
 ## 8. Usulan Teknologi
 
 | Lapisan | Pilihan | Alasan |
 |---|---|---|
-| Markup | PHP (template + include per section) | Sesuai folder proyek, mudah di-hosting di shared hosting |
-| Styling | CSS modern (variabel, clamp, grid) atau Tailwind CSS | Cepat dan konsisten |
-| Animasi | **GSAP + ScrollTrigger**, **Lenis** (smooth scroll) | Standar industri untuk efek scroll seperti di video |
-| Form | PHP + PHPMailer (SMTP) | Pengiriman email andal |
+| Markup | HTML statis (satu `index.html`) | Tanpa build step, langsung jalan di Vercel |
+| Styling | CSS modern (variabel, clamp, grid) | Cepat dan konsisten, tanpa dependensi |
+| Animasi | **GSAP + ScrollTrigger**, **Lenis** (smooth scroll), dimuat via CDN | Standar industri untuk efek scroll seperti di video |
+| Form | **Web3Forms** (gratis) | Tanpa backend, pesan langsung ke email |
 | 3D (fase 2) | Three.js / `<model-viewer>` | Model `.glb` interaktif |
-| Hosting | Shared hosting PHP / VPS | — |
+| Hosting | **Vercel** (paket Hobby, gratis) | Terhubung ke repo GitHub `ziletterid/portfolio` (private), auto-deploy tiap push ke `main`, HTTPS + subdomain `*.vercel.app` gratis |
 
-Alternatif kalau tidak butuh backend: HTML statis + form lewat Formspree, di-deploy ke Netlify/Vercel.
+**Catatan Vercel:** paket Hobby ditujukan untuk penggunaan pribadi/non-komersial. Portfolio pribadi termasuk aman; kalau nanti situsnya dipakai untuk jualan jasa skala bisnis, pertimbangkan pindah ke paket Pro atau Cloudflare Pages.
+
+**Langkah deploy:** login ke vercel.com dengan akun GitHub → *Add New Project* → pilih repo `portfolio` → Framework Preset: **Other** → Deploy. Domain sendiri bisa ditambahkan di *Settings → Domains*.
 
 ## 9. Struktur Folder (Usulan)
 
 ```
 portfolio/
-├── index.php
-├── partials/        # header, hero, about, services, projects, testimonials, contact, footer
-├── data/content.php # semua teks & data proyek
-├── api/contact.php  # handler form
+├── index.html       # semua section: header, hero, about, services, projects, testimonials, contact, footer
+├── data/content.js  # semua teks & data proyek
 ├── assets/
 │   ├── css/
 │   ├── js/          # main.js, animations.js
@@ -207,9 +207,10 @@ portfolio/
 | 1. Fondasi | Struktur folder, design token, font, layout statis semua section | 2–3 hari |
 | 2. Responsif | Penyesuaian tablet & mobile | 1–2 hari |
 | 3. Animasi | A1–A7 dengan GSAP + Lenis | 2–3 hari |
-| 4. Form & backend | `api/contact.php`, validasi, anti-spam | 1 hari |
+| 4. Form | Integrasi Web3Forms, validasi, pesan sukses/gagal | ½ hari |
 | 5. Polish & QA | Performa, aksesibilitas, SEO, uji lintas browser | 1–2 hari |
-| 6. (Opsional) | A8–A10, model 3D interaktif, multi-bahasa | — |
+| 6. Deploy | Hubungkan repo ke Vercel, cek situs live | ½ jam |
+| 7. (Opsional) | A8–A10, model 3D interaktif, multi-bahasa | — |
 
 ## 12. Di Luar Lingkup (v1)
 
@@ -221,11 +222,11 @@ portfolio/
 
 ## 13. Pertanyaan Terbuka
 
-1. Stack final: **PHP + GSAP** atau **HTML statis + Formspree**?
+1. ~~Stack final~~ → **Diputuskan:** HTML statis + GSAP, form Web3Forms, hosting Vercel.
 2. Profesi/fokus pemilik — tetap "3D designer" atau bidang lain (web developer, UI/UX, fotografer)? Ini menentukan isi Services.
 3. Sudah punya karakter 3D sendiri, atau perlu dibuat (AI render / commission)?
 4. Bahasa konten: Indonesia, Inggris, atau keduanya?
-5. Domain & hosting yang akan dipakai?
+5. Pakai subdomain `*.vercel.app` saja, atau beli domain sendiri?
 
 ---
 
