@@ -2,3 +2,8 @@
 .env
 vendor/
 node_modules/
+
+# Data pribadi dashboard (password, isi editan, pesan masuk) — jangan di-upload
+storage/*
+!storage/.htaccess
+.claude/
